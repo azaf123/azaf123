@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\KirimEmail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -77,7 +79,16 @@ class UserController extends Controller
             'password' => $request->password
         ]);
         if (Auth::check()) {
+
+            $isi =[
+                'barang'=>'bunga',
+                'des'=>'bunga layu bermekaran'
+            ];
+            Mail::to('fazaridho4@gmail.com')->send(new KirimEmail($isi));
+            
             return redirect('/home');
+            
+
         } else {
             return redirect('/loginuser');
         }
@@ -85,6 +96,6 @@ class UserController extends Controller
 
     public function logout(){
         Auth::logout();
-        return redirect('/loginuser');
+        return redirect('/home');
     }
 }
