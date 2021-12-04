@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Courier;
+use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LandingController extends Controller
 {
@@ -18,9 +21,9 @@ class LandingController extends Controller
     public function index()
     {
         $category = Category::all();
-        $product = Product::orderByDesc('product_soldout')-> get();
+        $product = Product::orderByDesc('product_soldout')->get();
         // return $product;
-        return view('landingpage.index', compact('category','product'));
+        return view('landingpage.index', compact('category', 'product'));
     }
 
     /**
@@ -30,7 +33,6 @@ class LandingController extends Controller
      */
     public function create()
     {
-    
     }
 
     /**
@@ -90,27 +92,53 @@ class LandingController extends Controller
     {
         //
     }
-    public function keranjang(){
-        $cart = Cart::all();
-        return view('landingpage.keranjang', compact('cart'));
+    public function keranjang()
+    {
+        $cart = Cart::where('user_id', Auth::user()->id)->where('status', 'belum')->get();
+        // untuk ambil semua
+        // $cart = Cart::all();
+        $courier = Courier::all();
+        $paymentmethod = PaymentMethod::all();
+        return view('landingpage.keranjang', compact('cart', 'courier', 'paymentmethod'));
     }
-    public function keranjang_store(Request $request){
-        return $request;
-        $request->validate([
-            'kuantitas' =>'required',
-        ],
-        [
-            'kuantitas.required' =>'Kuantitas  is required', 
-        ]);
+
+    public function keranjang_store(Request $request)
+    {
+        // return $request;
+
+        $request->validate(
+            [
+                'kuantitas' => 'required',
+            ],
+            [
+                'kuantitas.required' => 'Kuantitas  is required',
+            ]
+        );
         $product = Product::where('id', $request->productid)->first();
         // return $product->product_price;
-        Cart::create([
-            'product_id' => $request ->productid,
-            'product_qty' =>  $request->kuantitas,
-            'total_price' => ($request->kuantitas) * ($product->product_price),
-            'status_checkout' =>0,
-        ]);
-        return redirect('/keranjang');
+
+        $cart = Cart::where('user_id', Auth::user()->id)->where('status', 'belum')->get();
+        foreach ($cart as $item) {
+            if ($item->product_id == $request->productid) {
+
+                Cart::where('product_id', $item->product_id)->update([
+
+                    'product_qty' =>  $item->product_qty + $request->kuantitas,
+
+                ]);
+                return redirect('/keranjang');
+            } else {
+                Cart::create([
+                    'user_id' => Auth::user()->id,
+                    //
+                    'product_id' => $request->productid,
+                    'product_qty' =>  $request->kuantitas,
+                    'total_price' => ($request->kuantitas) * ($product->product_price),
+                    'status' => 'belum',
+                    'status_checkout' => 0,
+                ]);
+                return redirect('/keranjang');
+            }
+        }
     }
 }
-

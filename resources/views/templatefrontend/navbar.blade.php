@@ -31,7 +31,7 @@
                                 <a href="{{url('/logoutuser')}}"><button class="btn btn-outline-warning">Log Out</button></a>
                             </div>
                             <div class="col-lg-2 ml-5">
-                                <a href="#"><button class="btn btn-outline-warning">{{Auth::user()->level}}</button></a>
+                                <a href="#"><button class="btn btn-outline-warning">{{Auth::user()->name}}</button></a>
                             </div>
                         @endif
                     </div>
