@@ -81,36 +81,17 @@
     <div class="container">
         <div class="bg-transaksi  mt-5">
             <div class="container">
-               
-                <div class="form-group row">
-                    <label type="text" class="col-sm-2 col-form-label">Sub
-                        Total</label>
-                    <div class="col-lg-10">
-                        <input class="form-control" type="text" placeholder="subtotal">
-                    </div>
-                </div>
                 <div class="form-group row justify-content-between">
                     <label class="col-sm-2" for="exampleFormControlSelect1">Kurir</label>
                     <div class="col-lg-2">
 
                         <select class="form-control">
-                        
+
                             @foreach($courier as $item)
                             <option>{{$item->courier_name}}</option>
                             @endforeach
                         </select>
 
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group row">
-                            <label type="text" class="col-sm-2
-                                        col-form-label">Biaya Pengiriman</label>
-                            <div class="col-lg-10">
-                                <input class="form-control" type="text" placeholder="Biaya Pengiriman">
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -121,7 +102,7 @@
                             <div class="col-lg-3">
                                 <select class="form-control text-right" aria-placeholder="Metode
                                             Pembayaran">
-                                            @foreach($paymentmethod as $item)
+                                    @foreach($paymentmethod as $item)
                                     <option>{{$item->bank_name}}</option>
                                     @endforeach
                                 </select>
@@ -133,9 +114,9 @@
                     <div class="col">
                         <div class="form-group row">
                             <label type="text" class="col-sm-2
-                                        col-form-label">Total Belanja</label>
+                                        col-form-label">Total Harga</label>
                             <div class="col-lg-10">
-                                <input class="form-control" type="text" placeholder="Total Belanja">
+                                <input class="form-control" type="text" placeholder="Total Harga" readonly>
                             </div>
                         </div>
                     </div>

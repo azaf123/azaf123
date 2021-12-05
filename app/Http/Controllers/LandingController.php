@@ -120,25 +120,27 @@ class LandingController extends Controller
         $cart = Cart::where('user_id', Auth::user()->id)->where('status', 'belum')->get();
         foreach ($cart as $item) {
             if ($item->product_id == $request->productid) {
-
                 Cart::where('product_id', $item->product_id)->update([
 
                     'product_qty' =>  $item->product_qty + $request->kuantitas,
+                    // 'total_price'=>($item->product_qty + $request->kuantitas)* $product->prod
 
                 ]);
                 return redirect('/keranjang');
-            } else {
-                Cart::create([
-                    'user_id' => Auth::user()->id,
-                    //
-                    'product_id' => $request->productid,
-                    'product_qty' =>  $request->kuantitas,
-                    'total_price' => ($request->kuantitas) * ($product->product_price),
-                    'status' => 'belum',
-                    'status_checkout' => 0,
-                ]);
-                return redirect('/keranjang');
-            }
+            } 
+            
+            
         }
+        
+        Cart::create([
+            'user_id' => Auth::user()->id,
+            //
+            'product_id' => $request->productid,
+            'product_qty' =>  $request->kuantitas,
+            'total_price' => ($request->kuantitas) * ($product->product_price),
+            'status' => 'belum',
+            'status_checkout' => 0,
+        ]);
+        return redirect('/keranjang');
     }
 }
