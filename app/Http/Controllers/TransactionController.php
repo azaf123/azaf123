@@ -35,7 +35,19 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $request->validate([
+            'courier'=>'required',
+            'paymentmethod'=>'required',
+            'totalharga'=>'required'
+        ]);
+        
+        Transaction::create([
+            'courier_name'=>$request->courier,
+            'paymentmethod_id' => $request->paymentmethod,
+            'total_payment' => $request->totalharga,
+
+        ]);
     }
 
     /**

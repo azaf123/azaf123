@@ -51,8 +51,9 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::resource('paymentmethod', PaymentMethodController::class);
     Route::resource('courier', CourierController::class);
     Route::resource('cart', CartController::class);
-    Route::resource('transaction', TransactionController::class);
+    
 });
+Route::resource('transaction', TransactionController::class);
 
 //landingpage
 Route::resource('home', LandingController::class);
@@ -61,6 +62,8 @@ Route::group(['middleware'=>['authuser','user']],function(){
 // (/keranjang = url), ('keranjang' = fungsi di controller)
 Route::get('/keranjang',[LandingController::class,'keranjang']);
 Route::post('/keranjang', [LandingController::class,'keranjang_store']);
+Route::get('/pembayaran', [LandingController::class, 'pembayaran']);
+
 });
 
 

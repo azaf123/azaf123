@@ -27,28 +27,28 @@
         <div class="row mt-lg-5">
             <div class="col-lg-3 mt-lg-4">
                 <div class="bg-details">
-                    <img src={{asset('img/'. $product->image )}} alt="Promo1">
+                    <img src="{{asset('img/' . $product->image )}}" alt="Promo1">
                 </div>
             </div>
             <div class="col-lg-8 nama">
                 <div class="row judul">
                     <div class="col">
-                        <h1>{{$product -> product_name}}</h1>
+                        <h1>{{$product ->product_name}}</h1>
                     </div>
                 </div>
                 <div class="row harga">
                     <div class="col">
-                        <h3>IDR {{$product-> product_price}}</h3>
+                        <h3>IDR {{$product->product_price}}</h3>
                     </div>
                 </div>
                 <form action="{{url('/keranjang')}}" method="POST">
-                @csrf
-                <!-- ID di hidden -->
-                <input type="hidden" name="productid" id="productid" value="{{$product ->id}}">
-                    <div class="row mt-2 ml-1 kuantitas"> 
+                    @csrf
+                    <!-- ID di hidden -->
+                    <input type="hidden" name="productid" id="productid" value="{{$product ->id}}">
+                    <div class="row mt-2 ml-1 kuantitas">
                         <input type="number" id="kuantitas" name="kuantitas" min='0' max='100' value="1">
                     </div>
-                    
+
                     <div class="row stok">
                         <div class="col">
                             <h6>Tersedia : <span>{{$product -> product_stock}}</span></h6>

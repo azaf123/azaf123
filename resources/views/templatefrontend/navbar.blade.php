@@ -12,7 +12,6 @@
                                     type="search" placeholder="Belanjo apo hari ini....." aria-label="Search">
                             </form>
                         </div>
-                        
                         @if(!Auth::user())
                             <div class="col-lg-1 text-center">
                                 <a href="Keranjang.html"><i class="fas fa-cart-plus"></i></a>

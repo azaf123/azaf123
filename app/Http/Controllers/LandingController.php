@@ -97,14 +97,15 @@ class LandingController extends Controller
         $cart = Cart::where('user_id', Auth::user()->id)->where('status', 'belum')->get();
         // untuk ambil semua
         // $cart = Cart::all();
+        $totalharga = Cart::where('user_id', Auth::user()->id)->where('status', 'belum')->sum('total_price');
         $courier = Courier::all();
         $paymentmethod = PaymentMethod::all();
-        return view('landingpage.keranjang', compact('cart', 'courier', 'paymentmethod'));
+        return view('landingpage.keranjang', compact('cart', 'courier', 'paymentmethod', 'totalharga'));
     }
 
     public function keranjang_store(Request $request)
     {
-        // return $request;
+        // return $request;    
 
         $request->validate(
             [
@@ -123,15 +124,13 @@ class LandingController extends Controller
                 Cart::where('product_id', $item->product_id)->update([
 
                     'product_qty' =>  $item->product_qty + $request->kuantitas,
-                    // 'total_price'=>($item->product_qty + $request->kuantitas)* $product->prod
+                    'total_price' => ($item->product_qty + $request->kuantitas) * $item->product->product_price
 
                 ]);
                 return redirect('/keranjang');
-            } 
-            
-            
+            }
         }
-        
+
         Cart::create([
             'user_id' => Auth::user()->id,
             //
@@ -142,5 +141,11 @@ class LandingController extends Controller
             'status_checkout' => 0,
         ]);
         return redirect('/keranjang');
+    }
+
+// pembayaran
+    public function pembayaran()
+    {
+        return view('landingpage.pembayaran');
     }
 }

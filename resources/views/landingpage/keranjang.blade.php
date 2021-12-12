@@ -40,7 +40,7 @@
                                 <h5>{{$item->product->product_name}}</h5>
                                 <div class="row mt-lg-5">
                                     <div class="col harga">
-                                        <h5>IDR <span>{{$item->product->product_price}}</span></h5>
+                                        <h5>IDR <span>{{number_format($item->product->product_price,2,',','.')}}</span></h5>
                                     </div>
                                 </div>
                             </div>
@@ -79,57 +79,56 @@
 <!-- Transaksi -->
 <section id="Transaksi">
     <div class="container">
-        <div class="bg-transaksi  mt-5">
-            <div class="container">
-                <div class="form-group row justify-content-between">
-                    <label class="col-sm-2" for="exampleFormControlSelect1">Kurir</label>
-                    <div class="col-lg-2">
-
-                        <select class="form-control">
-
-                            @foreach($courier as $item)
-                            <option>{{$item->courier_name}}</option>
-                            @endforeach
-                        </select>
-
+        <form action="{{url('/transaction')}}" method="post">
+            @csrf
+            <div class="bg-transaksi  mt-5">
+                <div class="container">
+                    <div class="form-group row justify-content-between">
+                        <label class="col-sm-2" for="exampleFormControlSelect1">Kurir</label>
+                        <div class="col-lg-2">
+                            <select name="courier" class="form-control">
+                                @foreach($courier as $item)
+                                <option>{{$item->courier_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group row
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group row
                                     justify-content-between">
-                            <label class="col-sm-2" for="exampleFormControlSelect1">Pembayaran</label>
-                            <div class="col-lg-3">
-                                <select class="form-control text-right" aria-placeholder="Metode
+                                <label class="col-sm-2" for="exampleFormControlSelect1">Pembayaran</label>
+                                <div class="col-lg-3">
+                                    <select name="paymentmethod" class="form-control text-right" aria-placeholder="Metode
                                             Pembayaran">
-                                    @foreach($paymentmethod as $item)
-                                    <option>{{$item->bank_name}}</option>
-                                    @endforeach
-                                </select>
+                                        @foreach($paymentmethod as $item)
+                                        <option>{{$item->bank_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group row">
-                            <label type="text" class="col-sm-2
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group row">
+                                <label type="text" class="col-sm-2
                                         col-form-label">Total Harga</label>
-                            <div class="col-lg-10">
-                                <input class="form-control" type="text" placeholder="Total Harga" readonly>
+                                <div class="col-lg-10">
+                                    <input class="form-control" type="text" placeholder="IDR {{number_format($totalharga,2,',','.')}}" readonly>
+                                    <input type="hidden" value="{{$totalharga}}" name="totalharga">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col mb-5 text-center">
-                <a href="Metode-Pembayaran.html">
-                    <div class="btn btn-warning">Pesan Sekarang <i class="fa fa-long-arrow-right"></i></div>
-                </a>
+            <div class="row mt-5">
+                <div class="col mb-5 text-center">
+                        <button type="submit" class="btn btn-warning">Pesan Sekarang <i class="fa fa-long-arrow-right"></i></button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </section>
 <!-- Akhir Detail Alamat-->
